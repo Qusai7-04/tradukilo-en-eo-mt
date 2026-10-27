@@ -1,0 +1,11 @@
+# Python 3.10-3.12 recommended. Install a CPU or CUDA PyTorch build appropriate for your machine.
+torch>=2.0
+transformers>=4.50,<5
+sentencepiece>=0.1.99
+sacrebleu>=2.3
+pyarrow>=14.0
+numpy>=1.24
+matplotlib>=3.6
+jupyter
+nbformat
+pytest
