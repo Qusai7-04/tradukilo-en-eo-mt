@@ -68,6 +68,8 @@ To train checkpoints individually from the command line, run each of these comma
 
 The scripts create data/, models/, and figures/ locally. Dataset files, tokenizer cache, and model checkpoints are intentionally not committed; the notebook or trainer downloads/builds them. Running each training command from scratch takes a few minutes per model on a modest CPU. The notebook will reuse locally available checkpoints.
 
+To run the lightweight repository checks locally, use `pytest -q` and `python -m py_compile mt_core.py train_all.py marian_ref.py pretrained_adaptation.py`. GitHub Actions runs these checks automatically on pushes and pull requests; it does not download checkpoints or execute model training.
+
 ## Run actual pretrained-family adaptation
 
 pretrained_adaptation.py provides a separate path for the specific pretrained-model requirement:
