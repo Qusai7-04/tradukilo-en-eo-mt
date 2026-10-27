@@ -1,0 +1,293 @@
+{
+  "config": {
+    "vocab": 2000,
+    "maxlen": 14,
+    "batch": 64,
+    "lr": 0.001,
+    "epochs": 5,
+    "train_n": 6496,
+    "test_n": 82,
+    "d_model": 64,
+    "max_words": 10
+  },
+  "results": {
+    "Basic Transformer": {
+      "bleu": 0.7095817459875366,
+      "chrf": 10.933229501040591,
+      "infer_s": 1.7932498455047607,
+      "params": 342864,
+      "train_s": 117.76452350616455,
+      "loss_curve": [
+        6.20858102686265,
+        5.442707318885653,
+        5.146697095796173,
+        4.892348308189242,
+        4.657765491336
+      ]
+    },
+    "mT5-style": {
+      "bleu": 0.5963025076710425,
+      "chrf": 4.115120716654804,
+      "infer_s": 0.29058003425598145,
+      "params": 259648,
+      "train_s": 144.05970311164856,
+      "loss_curve": [
+        6.560558169495826,
+        5.913499065473968,
+        5.576032526352826,
+        5.370230179206998,
+        5.228576155269847
+      ]
+    },
+    "LLaMA-style": {
+      "bleu": 1.2171843053650389,
+      "chrf": 11.365873879483482,
+      "infer_s": 3.481276750564575,
+      "params": 297152,
+      "train_s": 140.75223326683044,
+      "loss_curve": [
+        6.297505430146759,
+        5.292869165831921,
+        4.513908905141494,
+        4.045634781613069,
+        3.7176413091958738
+      ]
+    },
+    "Gemma-style": {
+      "bleu": 0.555254006745159,
+      "chrf": 7.614475336641742,
+      "infer_s": 3.76031494140625,
+      "params": 169152,
+      "train_s": 157.42493796348572,
+      "loss_curve": [
+        6.381188355240167,
+        5.592020277883492,
+        4.9697604833864695,
+        4.601795542473886,
+        4.358195519914814
+      ]
+    },
+    "MarianMT (pretrained reference)": {
+      "bleu": 52.786933183372724,
+      "chrf": 71.58180338856502,
+      "infer_s": 34.6167266368866,
+      "params": 74971648,
+      "train_s": 0.0,
+      "loss_curve": []
+    }
+  },
+  "decoding": [
+    {
+      "setting": "greedy",
+      "bleu": 0.7095817459875366,
+      "chrf": 10.933229501040591,
+      "distinct2": 0.9734623015873016
+    },
+    {
+      "setting": "T=0.7",
+      "bleu": 1.0982651988265548,
+      "chrf": 12.240094194132148,
+      "distinct2": 0.998236331569665
+    },
+    {
+      "setting": "T=1.0",
+      "bleu": 0.5585248096203111,
+      "chrf": 11.480591748715419,
+      "distinct2": 1.0
+    },
+    {
+      "setting": "T=1.3",
+      "bleu": 0.23285332377554566,
+      "chrf": 11.729372475020133,
+      "distinct2": 1.0
+    },
+    {
+      "setting": "T=1.0, top-k=20",
+      "bleu": 0.9431207751640588,
+      "chrf": 11.124311291483371,
+      "distinct2": 1.0
+    }
+  ],
+  "examples": [
+    {
+      "en": "- Pét'a, hurry up.",
+      "ref": "-Peĉjo, rapidu.",
+      "Basic Transformer": "- Ĉu mi ne estas, ke mi ne ne estas.",
+      "mT5-style": "- - - - - - - - - - - - -",
+      "LLaMA-style": "- Dankon, ke vi ne estas?",
+      "Gemma-style": "La kondi la kondi la kondondond",
+      "MarianMT (pretrained reference)": "- Pacu, rapidu."
+    },
+    {
+      "en": "Look. She wants to refiill the tub.",
+      "ref": "Aha, ŝi provas replenigi la kuvon",
+      "Basic Transformer": "La ku, ke mi fi la fbon",
+      "mT5-style": "Lai la",
+      "LLaMA-style": "Mi ne volas, ke vi ne estas en la konduk",
+      "Gemma-style": "- - - - - - - - - - - -",
+      "MarianMT (pretrained reference)": "Ŝi volas refiĉi la kaŭvon."
+    },
+    {
+      "en": "We have decided to adopt your idea.",
+      "ref": "Ni decidis adopti vian ideon.",
+      "Basic Transformer": "Ni estas la kondis la konda.",
+      "mT5-style": "Laii.",
+      "LLaMA-style": "Ni ne scias, ke vi ne estas en la konduk",
+      "Gemma-style": "Mi ne povas povas povas povas povas povas povas povas povas povas povas povas",
+      "MarianMT (pretrained reference)": "Ni decidis adopti vian ideon."
+    },
+    {
+      "en": "kfileGBA Information",
+      "ref": "Comment",
+      "Basic Transformer": "Karlo:",
+      "mT5-style": "Laii",
+      "LLaMA-style": "- Dankon, ĉu vi?",
+      "Gemma-style": "La kondi",
+      "MarianMT (pretrained reference)": "Comment"
+    },
+    {
+      "en": "A straight line ?",
+      "ref": "Rekta linio?",
+      "Basic Transformer": "Karu la konda.",
+      "mT5-style": "Laii",
+      "LLaMA-style": "Trekaŭza",
+      "Gemma-style": "Kararararararararararar",
+      "MarianMT (pretrained reference)": "Ĉu rekta linio?"
+    },
+    {
+      "en": "Does not live here.",
+      "ref": "Li ĉi tie ne vivas nun.",
+      "Basic Transformer": "Ĉu vi povas kondis.",
+      "mT5-style": "Lai.",
+      "LLaMA-style": "Ne eblis la kondukcesis al la kond",
+      "Gemma-style": "Ne, ke vi.",
+      "MarianMT (pretrained reference)": "Ne vivas ĉi tie."
+    },
+    {
+      "en": "He lifted it up with all his might.",
+      "ref": "Li levis ĝin per tuto de sia povo.",
+      "Basic Transformer": "Li estas treis sian estas la fan.",
+      "mT5-style": "Li ne ne ne ne ne ne ne ne ne ne ne ne",
+      "LLaMA-style": "Li estas tre malplene.",
+      "Gemma-style": "Mi ne.",
+      "MarianMT (pretrained reference)": "Li levis ĝin per sia tuta forto."
+    },
+    {
+      "en": "- An herbal soak token.",
+      "ref": "Kuponon por herba rimedo",
+      "Basic Transformer": "- Ĉu mi ne estas la kond.",
+      "mT5-style": "- - - - - - - - - - - - -",
+      "LLaMA-style": "- Ne, mi ne povas fari.",
+      "Gemma-style": "- - - - - - - - - - - -",
+      "MarianMT (pretrained reference)": "- herba rimedo."
+    },
+    {
+      "en": "The young man is quite suited for the position.",
+      "ref": "La junulo estas tute taŭga por tiu pozicio.",
+      "Basic Transformer": "La ko de la fi la fi la f",
+      "mT5-style": "Lai la",
+      "LLaMA-style": "La kondukcesis la kondukon.",
+      "Gemma-style": "La kondi la kondi la kondondond",
+      "MarianMT (pretrained reference)": "La junulo estas tute taŭga por la posteno."
+    },
+    {
+      "en": "Tom let me down and he also let Mary down.",
+      "ref": "Tom elrevigis kaj min, kaj Mary.",
+      "Basic Transformer": "Tom estas fbis sian estas en la kon.",
+      "mT5-style": "Laiii",
+      "LLaMA-style": "Tom havas la feliĉon.",
+      "Gemma-style": "Mi ne.",
+      "MarianMT (pretrained reference)": "Tomo seniluziigis min, kaj ankaŭ Manjo mallevis min."
+    },
+    {
+      "en": "- Yes. Yes, I'm all right.",
+      "ref": "- Jes, ne tiom gravas.",
+      "Basic Transformer": "- Mi ne ne ne estas, ke vi.",
+      "mT5-style": "- Mi ne ne ne ne ne ne ne ne ne ne ne",
+      "LLaMA-style": "- Ne.",
+      "Gemma-style": "- - - - - - - - - - - - -",
+      "MarianMT (pretrained reference)": "- Jes, mi fartas bone."
+    },
+    {
+      "en": "Your children's food, Estrella.",
+      "ref": "La pano de viaj gefiloj, Estrella.",
+      "Basic Transformer": "Ne eblas, ke vi estas en la kon.",
+      "mT5-style": "Mi ne, vi,,,,,,,,,",
+      "LLaMA-style": "La info.",
+      "Gemma-style": "La kondi la kondi",
+      "MarianMT (pretrained reference)": "La manĝaĵo de viaj infanoj, Estrella."
+    },
+    {
+      "en": "Aren't the dumplings a bit mushy?",
+      "ref": "Ĉu tiuj buletoj ne estas iome ŝmirecaj?",
+      "Basic Transformer": "Ne eblis la konda en la kan.",
+      "mT5-style": "- la la la la la la la la la la la",
+      "LLaMA-style": "Dankon, mi ne estas en la feliĉa.",
+      "Gemma-style": "Mi ne estas estas la kondondonduton.",
+      "MarianMT (pretrained reference)": "Ĉu la buletoj ne estas iom frenezaj?"
+    },
+    {
+      "en": "Location:",
+      "ref": "Loko:",
+      "Basic Transformer": "Karu la kondo",
+      "mT5-style": "Ĉu vi",
+      "LLaMA-style": "Akrino",
+      "Gemma-style": "Salalal",
+      "MarianMT (pretrained reference)": "Loko:"
+    },
+    {
+      "en": "The party walked down the mountain.",
+      "ref": "La grupo marŝis malsupren de la monto.",
+      "Basic Transformer": "La ku la famon.",
+      "mT5-style": "Lai la",
+      "LLaMA-style": "La kondukcesis la kondukon.",
+      "Gemma-style": "Mi ne estas la kondondi.",
+      "MarianMT (pretrained reference)": "La festo marŝis malsupren de la monto."
+    },
+    {
+      "en": "An investment in knowledge pays the best interest.",
+      "ref": "Investo en scio pagas la plej bonan interezon.",
+      "Basic Transformer": "Karlo de la frino",
+      "mT5-style": "Laii",
+      "LLaMA-style": "Pardonu la kondukcesis.",
+      "Gemma-style": "Mi feliĉa.",
+      "MarianMT (pretrained reference)": "Investo en scio pagas la plej bonan interezon."
+    },
+    {
+      "en": "We have to pay taxes by March 15.",
+      "ref": "Niaj impostoj devas esti pagotaj je la 15a de marto.",
+      "Basic Transformer": "Ni estas la konda la kon de la f",
+      "mT5-style": "Laii",
+      "LLaMA-style": "Ni ne havas la kondukon.",
+      "Gemma-style": "Mi ne estas estas la kondi.",
+      "MarianMT (pretrained reference)": "Ni devas pagi impostojn ĝis la 15a de marto."
+    },
+    {
+      "en": "I had to stay behind.",
+      "ref": "Mi devis stari malantaŭe.",
+      "Basic Transformer": "Mi ne povas povas fari.",
+      "mT5-style": "Mi estas.",
+      "LLaMA-style": "Mi ne havas la kondukon.",
+      "Gemma-style": "Mi ne povas povas povas povas povas povas povas povas povas povas povas povas",
+      "MarianMT (pretrained reference)": "Mi devis stari malantaŭe."
+    },
+    {
+      "en": "You'd better consult the doctor.",
+      "ref": "Vi devus konsulti la kuraciston.",
+      "Basic Transformer": "Vi ne estas la famon en la fan.",
+      "mT5-style": "Li ne ne ne ne ne ne ne ne ne ne ne ne",
+      "LLaMA-style": "Vi ne povas fari tion.",
+      "Gemma-style": "Mi ne estas estas la kondondonduton.",
+      "MarianMT (pretrained reference)": "Vi devus konsulti la kuraciston."
+    },
+    {
+      "en": "Then don't go. Nobody's forcing you.",
+      "ref": "Do ne foriru, restu ĉi tie.",
+      "Basic Transformer": "La ne estas, ke vi.",
+      "mT5-style": "La estas estas estas estas.",
+      "LLaMA-style": "Tom ne povas fari tion.",
+      "Gemma-style": "Mi ne.",
+      "MarianMT (pretrained reference)": "Do ne foriru. Neniu devigas vin."
+    }
+  ]
+}
