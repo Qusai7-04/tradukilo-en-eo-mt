@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Downloaded corpus and tokenizer files
+/data/
+
+# Trained checkpoints can be regenerated and are not committed.
+/models/*.pt
+/models/*.safetensors
+/artifacts/
+pretrained_adaptation_results.json
