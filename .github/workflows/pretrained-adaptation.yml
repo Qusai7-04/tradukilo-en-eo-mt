@@ -1,0 +1,93 @@
+name: Pretrained translation experiments
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/pretrained-adaptation.yml'
+      - 'pretrained_adaptation.py'
+      - 'mt_core.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pretrained-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install runtime dependencies
+        run: python -m pip install --upgrade pip && python -m pip install torch 'transformers>=4.50,<5' sentencepiece sacrebleu pyarrow numpy
+
+      - name: Fine-tune pretrained mT5 on a bounded subset
+        id: mt5
+        continue-on-error: true
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: >-
+          python pretrained_adaptation.py --mode mt5
+          --train-samples 512 --val-samples 128 --epochs 1
+          --batch-size 2 --eval-batch-size 4 --eval-limit 82
+          --max-input-length 64 --max-target-length 48 --max-new-tokens 48
+
+      - name: Prompt pretrained LLaMA-family model
+        id: llama
+        continue-on-error: true
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: >-
+          python pretrained_adaptation.py --mode llama
+          --eval-limit 82 --eval-batch-size 2
+          --max-input-length 64 --max-new-tokens 48
+
+      - name: Prompt pretrained Gemma-family model
+        id: gemma
+        continue-on-error: true
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: >-
+          python pretrained_adaptation.py --mode gemma
+          --eval-limit 82 --eval-batch-size 2
+          --max-input-length 64 --max-new-tokens 48
+
+      - name: Save experiment status
+        if: always()
+        env:
+          MT5_OUTCOME: ${{ steps.mt5.outcome }}
+          LLAMA_OUTCOME: ${{ steps.llama.outcome }}
+          GEMMA_OUTCOME: ${{ steps.gemma.outcome }}
+        run: |
+          {
+            echo "# Pretrained experiment run status"
+            echo
+            echo "- mT5 fine-tuning: ${MT5_OUTCOME}"
+            echo "- TinyLlama prompt evaluation: ${LLAMA_OUTCOME}"
+            echo "- Gemma prompt evaluation: ${GEMMA_OUTCOME}"
+            echo
+            echo "A failed run means no metrics are claimed for that model. Gemma access may require accepting Google's model terms and providing a Hugging Face token as the repository secret HF_TOKEN."
+          } > pretrained_experiment_status.md
+
+      - name: Commit experiment outputs
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pretrained_adaptation_results.json pretrained_experiment_status.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No pretrained experiment output file was generated."
+            exit 0
+          fi
+          git commit -m "results: record pretrained translation experiments"
+          git push
